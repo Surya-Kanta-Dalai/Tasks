@@ -1,7 +1,6 @@
 // Case Study 1: Banking Management System
-// Scenario :
-// A bank manages different types of accounts such as Savings and Current accounts.
-// Requirements
+// Scenario : A bank manages different types of accounts such as Savings and Current accounts.
+// Requirements :
 // Classes
 // •	Account (Base Class)
 // •	SavingsAccount
@@ -39,9 +38,9 @@
 using System;
 
 abstract class Account {
-    protected long accountNumber;
-    protected string customerName;
-    protected decimal balance;
+    private long accountNumber;
+    private string customerName;
+    private decimal balance;
     public Account(long numb, string name, decimal bal) {
         accountNumber = numb;
         customerName = name;
