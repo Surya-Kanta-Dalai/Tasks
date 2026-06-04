@@ -1,7 +1,6 @@
 // Case Study 1: Banking Management System
-// Scenario :
-// A bank manages different types of accounts such as Savings and Current accounts.
-// Requirements
+// Scenario : A bank manages different types of accounts such as Savings and Current accounts.
+// Requirements :
 // Classes
 // •	Account (Base Class)
 // •	SavingsAccount
@@ -38,86 +37,119 @@
 
 using System;
 
-abstract class Account {
+abstract class Account
+{
     protected long accountNumber;
     protected string customerName;
     protected decimal balance;
-    public Account(long numb, string name, decimal bal) {
-        accountNumber = numb;
+
+    public Account(long accNo, string name)
+    {
+        accountNumber = accNo;
         customerName = name;
-        balance = bal;
+        balance = 0;
     }
-    public void Deposit(decimal amount) {
+
+    public void Deposit(decimal amount)
+    {
         balance += amount;
         Console.WriteLine($"{amount} deposited successfully. Total balance: {balance}");
     }
-    public virtual void Withdraw(decimal amount) {
-        if (balance >= amount) {
+
+    public virtual void Withdraw(decimal amount)
+    {
+        if (balance >= amount)
+        {
             balance -= amount;
             Console.WriteLine($"{amount} withdrawn successfully. Balance: {balance}");
-        } else {
+        }
+        else
+        {
             Console.WriteLine("Insufficient balance.");
         }
     }
 
-    public void DisplayDetails() {
-        Console.WriteLine($"Account: {accountNumber}");
-        Console.WriteLine($"Customer: {customerName}");
+    public void DisplayDetails()
+    {
+        Console.WriteLine($"Account Number: {accountNumber}");
+        Console.WriteLine($"Customer Name: {customerName}");
         Console.WriteLine($"Balance: {balance}");
     }
+
     public abstract void CalculateInterest();
 }
 
-class SavingsAccount : Account {
+class SavingsAccount : Account
+{
     static long numb = 1001;
-    public SavingsAccount(string name)
-        : base(numb++, name, 0.0m) {
+
+    public SavingsAccount(string name) : base(numb++, name)
+    {
+        Console.WriteLine("\nSaving Account opened successfully...");
     }
-    public override void CalculateInterest() {
+
+    public override void CalculateInterest()
+    {
         decimal interest = balance * 0.05m;
         balance += interest;
+
         Console.WriteLine($"Interest Added: {interest}");
         Console.WriteLine($"Updated Balance: {balance}");
     }
 }
 
-class CurrentAccount : Account {
+class CurrentAccount : Account
+{
     static long numb = 2001;
-    public CurrentAccount(string name)
-        : base(numb++, name, 0.0m) {
+
+    public CurrentAccount(string name) : base(numb++, name)
+    {
+        Console.WriteLine("\nCurrent Account opened successfully...");
     }
-    public override void CalculateInterest() {
+
+    public override void Withdraw(decimal amount)
+    {
+        balance -= amount;
+        Console.WriteLine($"{amount} withdrawn. Balance: {balance}");
+    }
+
+    public override void CalculateInterest()
+    {
         Console.WriteLine("No interest for Current Account.");
     }
 }
 
-class BankingManagementSystem {
-    public static void Main(string[] args) {
-        Console.Write("Enter Customer Name:");
-        string name = Console.ReadLine();
-
+class BankingManagementSystem
+{
+    public static void Main(string[] args)
+    {
         Console.WriteLine("Select Account Type:");
         Console.WriteLine("1. Savings");
         Console.WriteLine("2. Current");
 
-        Console.Write("Enter your Choice: ");
         int type = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Customer Name: ");
+        string name = Console.ReadLine();
 
         Account account;
 
-        if (type == 1) {
+        if (type == 1)
+        {
             account = new SavingsAccount(name);
-        } else if (type == 2) {
+        }
+        else if (type == 2)
+        {
             account = new CurrentAccount(name);
-        } else {
+        }
+        else
+        {
             Console.WriteLine("Invalid choice.");
             return;
         }
 
+        account.Deposit(50000);
         account.DisplayDetails();
-
-        account.Deposit(5000);
-        account.Withdraw(2000);
 
         account.CalculateInterest();
     }
